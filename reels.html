@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>🔥 Reels Showcase</title>
+<title>🔥 Reels Experience</title>
 
 <link rel="stylesheet" href="b.css">
 
@@ -12,10 +12,9 @@ body{
   font-family:'Segoe UI',sans-serif;
   background:#000;
   color:white;
-  overflow:hidden;
+  overflow-x:hidden;
 }
 
-/* خلفية متحركة */
 #particles-js{
   position:fixed;
   width:100%;
@@ -25,42 +24,91 @@ body{
   z-index:-1;
 }
 
-/* حاوية الريلز (Desktop) */
-.reel-container{
-  width:420px;
-  height:760px;
-  margin:30px auto;
-  position:relative;
-  border-radius:30px;
+.reel-wrapper{
+  max-width:1100px;
+  margin:40px auto;
+  display:grid;
+  grid-template-columns: 2fr 1fr;
+  gap:30px;
+  animation:fadeIn 1.4s ease;
+}
+
+.reel-video{
+  border-radius:25px;
   overflow:hidden;
-  box-shadow:
-    0 0 40px #ff0055,
-    0 0 80px #00ffea;
-  animation:fadeIn 1.5s ease;
+  box-shadow:0 0 50px #ff0055;
   background:#000;
 }
 
-/* iframe Instagram */
-.reel-container iframe{
+.reel-video iframe{
   width:100%;
-  height:100%;
+  height:620px;
   border:none;
 }
 
-/* شريط علوي */
+.reel-panel{
+  background:rgba(0,0,0,0.65);
+  border-radius:25px;
+  padding:25px;
+  box-shadow:0 0 40px #00ffea inset;
+  backdrop-filter:blur(10px);
+}
+
+.reel-panel h2{
+  margin:0 0 5px;
+  color:#00ffea;
+  text-shadow:0 0 15px #00ffea;
+}
+
+.like-count{
+  font-size:14px;
+  opacity:0.8;
+  margin-bottom:15px;
+}
+
+.like-btn{
+  padding:14px 28px;
+  border:none;
+  border-radius:25px;
+  font-size:18px;
+  font-weight:bold;
+  cursor:pointer;
+  background:linear-gradient(90deg,#ff0055,#ff4081);
+  color:black;
+  box-shadow:0 0 25px #ff0055;
+  transition:0.3s;
+}
+
+.like-btn:hover{
+  transform:scale(1.08);
+  box-shadow:0 0 50px #ff4081;
+}
+
+.comments{
+  margin-top:25px;
+}
+
+.comment{
+  background:rgba(255,255,255,0.06);
+  border-radius:15px;
+  padding:12px 15px;
+  margin-bottom:12px;
+  animation:slideUp 0.6s ease;
+}
+
+.comment strong{
+  color:#ff4081;
+}
+
 .top-bar{
-  position:absolute;
-  top:15px;
-  left:15px;
-  right:15px;
+  max-width:1100px;
+  margin:0 auto 15px;
   display:flex;
   justify-content:space-between;
-  align-items:center;
-  z-index:10;
 }
 
 .top-bar button{
-  padding:10px 18px;
+  padding:10px 20px;
   border-radius:20px;
   border:none;
   cursor:pointer;
@@ -70,50 +118,13 @@ body{
   box-shadow:0 0 25px #ff0055;
 }
 
-/* أزرار التفاعل */
-.actions{
-  position:absolute;
-  right:15px;
-  bottom:140px;
-  display:flex;
-  flex-direction:column;
-  gap:15px;
-  z-index:10;
-}
-
-.actions button{
-  width:55px;
-  height:55px;
-  border-radius:50%;
-  border:none;
-  font-size:22px;
-  cursor:pointer;
-  background:rgba(0,0,0,0.65);
-  color:white;
-  box-shadow:0 0 20px #ff0055;
-  transition:0.3s;
-}
-
-.actions button:hover{
-  transform:scale(1.15);
-  box-shadow:0 0 35px #00ffea;
-}
-
-.badge{
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  font-size:26px;
-  font-weight:bold;
-  color:#ff0055;
-  text-shadow:0 0 20px #ff0055;
-  display:none;
-  z-index:20;
+@keyframes slideUp{
+  from{opacity:0; transform:translateY(10px);}
+  to{opacity:1; transform:translateY(0);}
 }
 
 @keyframes fadeIn{
-  from{opacity:0; transform:scale(0.9);}
+  from{opacity:0; transform:scale(0.95);}
   to{opacity:1; transform:scale(1);}
 }
 </style>
@@ -123,27 +134,33 @@ body{
 
 <div id="particles-js"></div>
 
-<div class="reel-container">
+<div class="top-bar">
+  <button onclick="goBack()">⬅ Menu</button>
+  <button onclick="location.reload()">🔄 Reload</button>
+</div>
 
-  <div class="top-bar">
-    <button onclick="goBack()">⬅ Menu</button>
-    <button onclick="reloadReel()">🔄</button>
+<div class="reel-wrapper">
+
+  <div class="reel-video">
+    <iframe 
+      src="https://www.instagram.com/p/DTXiEsDl8hz/embed"
+      allowfullscreen
+      loading="lazy">
+    </iframe>
   </div>
 
-  <!-- Instagram Reel Embed -->
-  <iframe 
-    src="https://www.instagram.com/p/DTXiEsDl8hz/embed"
-    allowfullscreen
-    loading="lazy">
-  </iframe>
+  <div class="reel-panel">
+    <h2>🔥 Viral Reel</h2>
+    <div class="like-count"><span id="likes">1,248</span> likes</div>
 
-  <div class="actions">
-    <button onclick="like()">❤️</button>
-    <button onclick="share()">📤</button>
-    <button onclick="save()">💾</button>
+    <button class="like-btn" onclick="like()">❤️ Like</button>
+
+    <div class="comments" id="comments">
+      <div class="comment"><strong>bahaa:</strong> Amazing 🔥</div>
+      <div class="comment"><strong>ahmad:</strong> Great.</div>
+    </div>
   </div>
 
-  <div id="badge" class="badge"></div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
@@ -151,7 +168,7 @@ body{
 <script>
 particlesJS("particles-js",{
   particles:{
-    number:{value:100},
+    number:{value:90},
     color:{value:["#ff0055","#00ffea"]},
     size:{value:3,random:true},
     move:{speed:2},
@@ -159,25 +176,43 @@ particlesJS("particles-js",{
   }
 });
 
-const badge = document.getElementById("badge");
+let likeCount = 1248;
+let liveComments = [
+  "This would impress any professor 👏",
+  "Professional and modern.",
+  "Amazing presentation idea!",
+  "The UI feels premium 🔥",
+  "Simple but powerful."
+];
 
 function goBack(){
   window.location.href="menu.html";
 }
 
-function reloadReel(){
-  location.reload();
+function like(){
+  likeCount++;
+  document.getElementById("likes").innerText = likeCount.toLocaleString();
+
+  addComment("You","Loved this reel ❤️");
 }
 
-function showBadge(text){
-  badge.innerText=text;
-  badge.style.display="block";
-  setTimeout(()=>badge.style.display="none",1500);
+function addComment(name,text){
+  const comments=document.getElementById("comments");
+  const c=document.createElement("div");
+  c.className="comment";
+  c.innerHTML=`<strong>${name}:</strong> ${text}`;
+  comments.prepend(c);
 }
 
-function like(){ showBadge("❤️ Liked"); }
-function share(){ showBadge("📤 Shared"); }
-function save(){ showBadge("💾 Saved"); }
+let index=0;
+const interval=setInterval(()=>{
+  if(index>=liveComments.length){
+    clearInterval(interval);
+    return;
+  }
+  addComment("Viewer",liveComments[index]);
+  index++;
+},4500);
 </script>
 
 </body>
