@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>🔥 Reels Experience</title>
+<link rel="stylesheet" href="b.css">
+<style>
+body{
+  margin:0;
+  font-family:'Segoe UI',sans-serif;
+  background:#000;
+  color:white;
+  overflow-x:hidden;
+}
+
+#particles-js{
+  position:fixed;
+  width:100%;
+  height:100%;
+  top:0;
+  left:0;
+  z-index:-1;
+}
+
+/* Background Illustrations */
+.bg-eye{
+  position:fixed;
+  right:-140px;
+  bottom:-100px;
+  width:520px;
+  height:520px;
+  background:url("eye.png") center/contain no-repeat;
+  opacity:0.35;
+  filter: drop-shadow(0 0 50px rgba(255,0,0,0.7));
+  z-index:-2;
+  pointer-events:none;
+  animation: floaty 12s ease-in-out infinite;
+}
+
+.bg-amoeba{
+  position:fixed;
+  left:-120px;
+  bottom:-80px;
+  width:450px;
+  height:450px;
+  background:url("amoeba.png") center/contain no-repeat;
+  opacity:0.4;
+  filter: drop-shadow(0 0 50px rgba(0,255,255,0.8));
+  z-index:-2;
+  pointer-events:none;
+  animation: floaty 12s ease-in-out infinite;
+}
+
+@keyframes floaty{
+  0%{transform:translateY(0);}
+  50%{transform:translateY(-20px);}
+  100%{transform:translateY(0);}
+}
+
+/* Reel layout */
+.reel-wrapper{
+  max-width:1100px;
+  margin:40px auto;
+  display:grid;
+  grid-template-columns: 2fr 1fr;
+  gap:30px;
+  animation:fadeIn 1.4s ease;
+}
+
+.reel-video{
+  border-radius:25px;
+  overflow:hidden;
+  box-shadow:0 0 50px #ff0055;
+  background:#000;
+}
+
+.reel-video iframe{
+  width:100%;
+  height:620px;
+  border:none;
+}
+
+.reel-panel{
+  background:rgba(0,0,0,0.65);
+  border-radius:25px;
+  padding:25px;
+  box-shadow:0 0 40px #00ffea inset;
+  backdrop-filter:blur(10px);
+}
+
+.reel-panel h2{
+  margin:0 0 5px;
+  color:#00ffea;
+  text-shadow:0 0 15px #00ffea;
+}
+
+.like-count{
+  font-size:14px;
+  opacity:0.8;
+  margin-bottom:15px;
+}
+
+.like-btn{
+  padding:14px 28px;
+  border:none;
+  border-radius:25px;
+  font-size:18px;
+  font-weight:bold;
+  cursor:pointer;
+  background:linear-gradient(90deg,#ff0055,#ff4081);
+  color:black;
+  box-shadow:0 0 25px #ff0055;
+  transition:0.3s;
+}
+
+.like-btn:hover{
+  transform:scale(1.08);
+  box-shadow:0 0 50px #ff4081;
+}
+
+.comments{
+  margin-top:25px;
+}
+
+.comment{
+  background:rgba(255,255,255,0.06);
+  border-radius:15px;
+  padding:12px 15px;
+  margin-bottom:12px;
+  animation:slideUp 0.6s ease;
+}
+
+.comment strong{
+  color:#ff4081;
+}
+
+.top-bar{
+  max-width:1100px;
+  margin:0 auto 15px;
+  display:flex;
+  justify-content:space-between;
+}
+
+.top-bar button{
+  padding:10px 20px;
+  border-radius:20px;
+  border:none;
+  cursor:pointer;
+  font-weight:bold;
+  background:linear-gradient(90deg,#ff0055,#00ffea);
+  color:black;
+  box-shadow:0 0 25px #ff0055;
+}
+
+@keyframes slideUp{
+  from{opacity:0; transform:translateY(10px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+@keyframes fadeIn{
+  from{opacity:0; transform:scale(0.95);}
+  to{opacity:1; transform:scale(1);}
+}
+</style>
+</head>
+<body>
+
+<div id="particles-js"></div>
+
+<!-- Background Illustrations -->
+<div class="bg-amoeba"></div>
+<div class="bg-eye"></div>
+
+<div class="top-bar">
+  <button onclick="goBack()">⬅ Menu</button>
+  <button onclick="location.reload()">🔄 Reload</button>
+</div>
+
+<div class="reel-wrapper">
+
+  <div class="reel-video">
+    <iframe 
+      src="https://www.instagram.com/p/DTXiEsDl8hz/embed"
+      allowfullscreen
+      loading="lazy">
+    </iframe>
+  </div>
+
+  <div class="reel-panel">
+    <h2>🔥 Viral Reel</h2>
+    <div class="like-count"><span id="likes">1,248</span> likes</div>
+
+    <button class="like-btn" onclick="like()">❤️ Like</button>
+
+    <div class="comments" id="comments">
+      <div class="comment"><strong>bahaa:</strong> Amazing 🔥</div>
+      <div class="comment"><strong>ahmad:</strong> Great.</div>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
+<script>
+particlesJS("particles-js",{
+  particles:{
+    number:{value:90},
+    color:{value:["#ff0055","#00ffea"]},
+    size:{value:3,random:true},
+    move:{speed:2},
+    line_linked:{enable:false}
+  }
+});
+
+let likeCount = 1248;
+let liveComments = [
+  "This would impress any professor 👏",
+  "Professional and modern.",
+  "Amazing presentation idea!",
+  "The UI feels premium 🔥",
+  "Simple but powerful."
+];
+
+function goBack(){
+  window.location.href="menu.html";
+}
+
+function like(){
+  likeCount++;
+  document.getElementById("likes").innerText = likeCount.toLocaleString();
+  addComment("You","Loved this reel ❤️");
+}
+
+function addComment(name,text){
+  const comments=document.getElementById("comments");
+  const c=document.createElement("div");
+  c.className="comment";
+  c.innerHTML=`<strong>${name}:</strong> ${text}`;
+  comments.prepend(c);
+}
+
+let index=0;
+const interval=setInterval(()=>{
+  if(index>=liveComments.length){
+    clearInterval(interval);
+    return;
+  }
+  addComment("Viewer",liveComments[index]);
+  index++;
+},4500);
+</script>
+
+</body>
+</html>
