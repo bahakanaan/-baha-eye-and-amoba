@@ -1,0 +1,138 @@
+// === GLOBAL VARIABLES ===
+let isLoggedIn = false;
+
+// Login elements
+const loginBox = document.querySelector('.login-box');
+const menuSection = document.querySelector('.menu-section');
+const videosSection = document.querySelectorAll('.video-section');
+const reelsSection = document.querySelector('.reels-section');
+const logoutBtn = document.querySelector('.logout');
+const darkToggle = document.querySelector('#darkToggle');
+
+// === LOGIN SYSTEM ===
+function login(username, password){
+    if(username === "user" && password === "1234"){
+        isLoggedIn = true;
+        if(loginBox) loginBox.style.display = 'none';
+        if(menuSection) menuSection.style.display = 'block';
+        videosSection.forEach(v => v.style.display = 'block');
+        if(reelsSection) reelsSection.style.display = 'block';
+        localStorage.setItem('loggedIn', true);
+    } else {
+        const err = document.querySelector('#error');
+        if(err) err.innerText = "Invalid username or password!";
+    }
+}
+
+const loginBtn = document.querySelector('#loginBtn');
+if(loginBtn){
+    loginBtn.addEventListener('click', ()=>{
+        const username = document.querySelector('#username')?.value;
+        const password = document.querySelector('#password')?.value;
+        login(username, password);
+    });
+}
+
+// === LOGOUT SYSTEM ===
+if(logoutBtn){
+    logoutBtn.addEventListener('click', ()=>{
+        isLoggedIn = false;
+        if(loginBox) loginBox.style.display = 'block';
+        if(menuSection) menuSection.style.display = 'none';
+        videosSection.forEach(v => v.style.display = 'none');
+        if(reelsSection) reelsSection.style.display = 'none';
+        localStorage.removeItem('loggedIn');
+    });
+}
+
+// === DARK/LIGHT MODE ===
+if(darkToggle){
+    darkToggle.addEventListener('click', ()=>{
+        document.body.classList.toggle('dark');
+    });
+}
+
+// === VIDEO CONTROLS ===
+document.querySelectorAll('video').forEach(video=>{
+    const playBtn = video.parentElement.querySelector('.play');
+    const pauseBtn = video.parentElement.querySelector('.pause');
+    const replayBtn = video.parentElement.querySelector('.replay');
+    const speedSelect = video.parentElement.querySelector('.speed');
+
+    if(playBtn) playBtn.addEventListener('click', ()=>video.play());
+    if(pauseBtn) pauseBtn.addEventListener('click', ()=>video.pause());
+    if(replayBtn) replayBtn.addEventListener('click', ()=>{
+        video.currentTime=0;
+        video.play();
+    });
+    if(speedSelect){
+        speedSelect.addEventListener('change', (e)=>{
+            video.playbackRate = parseFloat(e.target.value);
+        });
+    }
+});
+
+// === YOUTUBE IFRAME SUPPORT ===
+let ytPlayers = [];
+if(document.querySelectorAll('.youtube-player').length > 0){
+    function onYouTubeIframeAPIReady(){
+        document.querySelectorAll('.youtube-player').forEach((el, i)=>{
+            const player = new YT.Player(el, {
+                videoId: el.dataset.videoid,
+                playerVars: {autoplay:0, controls:1, rel:0, modestbranding:1}
+            });
+            ytPlayers.push(player);
+        });
+    }
+}
+
+// === REELS SCROLLING ===
+const reels = document.querySelector('.reels-carousel');
+const nextReel = document.querySelector('#nextReel');
+const prevReel = document.querySelector('#prevReel');
+
+if(reels){
+    if(nextReel) nextReel.addEventListener('click', ()=>reels.scrollBy({left:320, behavior:'smooth'}));
+    if(prevReel) prevReel.addEventListener('click', ()=>reels.scrollBy({left:-320, behavior:'smooth'}));
+}
+
+// === BADGES ANIMATION ===
+const badges = document.querySelectorAll('.badge');
+badges.forEach(badge=>{
+    badge.addEventListener('mouseenter', ()=>{
+        badge.style.transform = 'scale(1.2)';
+        badge.style.transition='0.3s all';
+    });
+    badge.addEventListener('mouseleave', ()=>{
+        badge.style.transform = 'scale(1)';
+    });
+});
+
+// === LOCAL STORAGE LOGIN CHECK ===
+window.addEventListener('load', ()=>{
+    if(localStorage.getItem('loggedIn')){
+        isLoggedIn = true;
+        if(loginBox) loginBox.style.display = 'none';
+        if(menuSection) menuSection.style.display = 'block';
+        videosSection.forEach(v => v.style.display = 'block');
+        if(reelsSection) reelsSection.style.display = 'block');
+    } else {
+        if(loginBox) loginBox.style.display = 'block';
+        if(menuSection) menuSection.style.display = 'none';
+        videosSection.forEach(v => v.style.display = 'none');
+        if(reelsSection) reelsSection.style.display = 'none';
+    }
+});
+
+// === ADDITIONAL EFFECTS ===
+function glowEffect(el){
+    const originalShadow = el.style.boxShadow;
+    el.style.boxShadow='0 0 50px #00ffea,0 0 100px #00ffea inset';
+    el.addEventListener('mouseleave', ()=>{
+        el.style.boxShadow = originalShadow;
+    }, {once:true});
+}
+
+document.querySelectorAll('.menu-link, button').forEach(el=>{
+    el.addEventListener('mouseenter', ()=>glowEffect(el));
+});
