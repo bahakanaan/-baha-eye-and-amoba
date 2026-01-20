@@ -34,10 +34,25 @@ body{
 }
 
 .reel-video{
+  position:relative; /* ADDED */
   border-radius:25px;
   overflow:hidden;
   box-shadow:0 0 50px #ff0055;
   background:#000;
+}
+
+/* ADDED – cinematic overlay */
+.reel-video::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    to top,
+    rgba(0,0,0,0.55),
+    rgba(0,0,0,0.1),
+    rgba(0,0,0,0.55)
+  );
+  pointer-events:none;
 }
 
 .reel-video iframe{
@@ -84,6 +99,11 @@ body{
   box-shadow:0 0 50px #ff4081;
 }
 
+/* ADDED – glow pulse on like */
+.like-btn.active{
+  animation:pulse 0.6s ease;
+}
+
 .comments{
   margin-top:25px;
 }
@@ -127,6 +147,13 @@ body{
   from{opacity:0; transform:scale(0.95);}
   to{opacity:1; transform:scale(1);}
 }
+
+/* ADDED */
+@keyframes pulse{
+  0%{box-shadow:0 0 25px #ff0055;}
+  50%{box-shadow:0 0 60px #ff4081;}
+  100%{box-shadow:0 0 25px #ff0055;}
+}
 </style>
 </head>
 
@@ -143,7 +170,7 @@ body{
 
   <div class="reel-video">
     <iframe 
-      src="https://www.instagram.com/reel/DTqWCh0CpMB/?igsh=MXczOHFucWJuZDl3cw=="
+      src="https://www.instagram.com/reel/DTqWCh0CpMB/embed"
       allowfullscreen
       loading="lazy">
     </iframe>
@@ -153,7 +180,7 @@ body{
     <h2>🔥 Viral Reel</h2>
     <div class="like-count"><span id="likes">1,248</span> likes</div>
 
-    <button class="like-btn" onclick="like()">❤️ Like</button>
+    <button class="like-btn" id="likeBtn" onclick="like()">❤️ Like</button>
 
     <div class="comments" id="comments">
       <div class="comment"><strong>bahaa:</strong> Amazing 🔥</div>
@@ -193,6 +220,10 @@ function like(){
   likeCount++;
   document.getElementById("likes").innerText = likeCount.toLocaleString();
 
+  const btn=document.getElementById("likeBtn");
+  btn.classList.add("active");
+  setTimeout(()=>btn.classList.remove("active"),600);
+
   addComment("You","Loved this reel ❤️");
 }
 
@@ -217,4 +248,3 @@ const interval=setInterval(()=>{
 
 </body>
 </html>
-
